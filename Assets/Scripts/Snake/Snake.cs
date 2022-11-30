@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Snake : MonoBehaviour {
     [SerializeField]
@@ -8,15 +9,30 @@ public class Snake : MonoBehaviour {
     private float _speed;
     [SerializeField]
     private float _tailSpringiness;
+    [SerializeField]
+    private int _tailSize;
 
     private SnakeInput _snakeInput;
     private TailGenerator _tailGenerator;
     private List<Segment> _tail;
 
+    public event UnityAction<int> SizeUpdated;
+
     private void Start() {
         _tailGenerator = GetComponent<TailGenerator>();
         _snakeInput = GetComponent<SnakeInput>();
-        _tail = _tailGenerator.Generate();
+        _tail = _tailGenerator.Generate(_tailSize);
+        SizeUpdated?.Invoke(_tail.Count);
+    }
+
+    private void OnEnable() {
+        _head.BlockCollided += OnBlockCollided;
+        _head.BonusPickUp += OnBonusPickUp;
+    }
+
+    private void OnDisable() {
+        _head.BlockCollided -= OnBlockCollided;
+        _head.BonusPickUp -= OnBonusPickUp;
     }
 
     private void FixedUpdate() {
@@ -34,5 +50,17 @@ public class Snake : MonoBehaviour {
             prevPosition = tempPosition;
         }
         _head.Move(nextPosition);
+    }
+
+    private void OnBlockCollided() {
+        var deletedSegment = _tail[_tail.Count - 1];
+        _tail.Remove(deletedSegment);
+        Destroy(deletedSegment.gameObject);
+        SizeUpdated?.Invoke(_tail.Count);
+    }
+
+    private void OnBonusPickUp(int bonusValue) {
+        _tail.AddRange(_tailGenerator.Generate(bonusValue));
+        SizeUpdated?.Invoke(_tail.Count);
     }
 }

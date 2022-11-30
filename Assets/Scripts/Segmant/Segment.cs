@@ -1,6 +1,3 @@
 using UnityEngine;
 
-public class Segment : MonoBehaviour
-{
-  
-}
+public class Segment : MonoBehaviour { }
