@@ -6,6 +6,7 @@ public class SnakeHead : MonoBehaviour {
     private Rigidbody2D _rigidbody2D;
 
     public event UnityAction BlockCollided;
+    public event UnityAction Finish;
     public event UnityAction<int> BonusPickUp;
 
     private void Start() { _rigidbody2D = GetComponent<Rigidbody2D>(); }
@@ -21,5 +22,6 @@ public class SnakeHead : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.TryGetComponent(out Bonus bonus)) { BonusPickUp?.Invoke(bonus.PickUp()); }
+        else if (other.gameObject.TryGetComponent(out Finish finish)) { Finish?.Invoke(); }
     }
 }

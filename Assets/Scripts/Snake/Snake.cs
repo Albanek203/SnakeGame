@@ -17,6 +17,7 @@ public class Snake : MonoBehaviour {
     private List<Segment> _tail;
 
     public event UnityAction<int> SizeUpdated;
+    public event UnityAction GameOver;
 
     private void Start() {
         _tailGenerator = GetComponent<TailGenerator>();
@@ -56,6 +57,7 @@ public class Snake : MonoBehaviour {
         var deletedSegment = _tail[_tail.Count - 1];
         _tail.Remove(deletedSegment);
         Destroy(deletedSegment.gameObject);
+        if (_tail.Count <= 0) { GameOver?.Invoke(); }
         SizeUpdated?.Invoke(_tail.Count);
     }
 
