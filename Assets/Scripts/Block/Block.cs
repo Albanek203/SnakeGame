@@ -10,10 +10,13 @@ public class Block : MonoBehaviour {
 
     private int _destroyPrice;
     private int _filling;
+    
 
     public event UnityAction<int> FillingProgress;
 
     private int LeftToFill => _destroyPrice - _filling;
+    public int Filling => _filling;
+
 
     private void Start() {
         _spriteRenderer.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);

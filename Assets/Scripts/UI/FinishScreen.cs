@@ -1,3 +1,3 @@
-using UnityEngine;
-
-public class FinishScreen : MonoBehaviour { }
+public class FinishScreen : Screen {
+    private void Start() { ShowScore(); }
+}

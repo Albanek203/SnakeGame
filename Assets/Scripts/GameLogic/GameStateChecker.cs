@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameStateChecker : MonoBehaviour {
+    [SerializeField]
+    private Score _score;
+
     [Header("Snake")]
     [SerializeField]
     private Snake _snake;
@@ -33,6 +36,7 @@ public class GameStateChecker : MonoBehaviour {
     private void OnFinish() {
         _finishScreen.gameObject.SetActive(true);
         _reloadFinishButton.interactable = true;
+        _score.gameObject.SetActive(false);
     }
 
     private void OnGameOver() {

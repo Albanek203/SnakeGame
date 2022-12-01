@@ -1,3 +1,1 @@
-using UnityEngine;
-
-public class GameOverScreen : MonoBehaviour { }
+public class GameOverScreen : Screen { }
